@@ -31,28 +31,88 @@
 
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
-
+    let bornIn1500 = inventors.filter((inventor)=> inventor.year>=1500&&inventor.year<1600);
+    console.log("bornIn1500",bornIn1500);
+    console.table(bornIn1500);
     // Array.prototype.map()
     // 2. Give us an array of the inventors' first and last names
-
+    let inventorsName=inventors.map(inventor=>
+      inventor.first+" "+inventor.last
+      )
+    console.log('inventorsName',inventorsName);
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    //inventors.sort((a,b)=>a.year<b.year);//does not work!
+
+    // inventors.sort((a,b)=>{
+    //   if(a.year>b.year) return 1;
+    //   else return -1
+    //   })
+
+    const ordered = inventors.sort((a,b)=>a.year>b.year ? 1 : -1);
+    console.log('sort by born: ' ,ordered);
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live?
-
+    const totalYears=inventors.reduce((acc,inventor)=>{
+      //console.log(inventor.passed-inventor.year);
+      return acc+(inventor.passed-inventor.year);
+    },0)
+    console.log("totalYears",totalYears);
     // 5. Sort the inventors by years lived
+    inventors.sort((a,b)=>{
+      if(a.passed-a.year<b.passed-b.year) return 1;
+      else return -1;
+    });
+    console.log("life", inventors);
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
-
+    const category = document.querySelector('.mw-category');
+    const links = categor.querySelectorAll('a');
+    //method 1
+    const de1 = [];
+    links.forEach(link=>{
+      if(link.textContent.indexOf('de')!== -1)
+      de1.push(link.textContent);
+    })
+    
+    //method 2
+    //links are not array, so you cannot use map
+    // you can change links to array
+    const links = Array.from(categor.querySelectorAll('a'));
+    const links = [...categor.querySelectorAll('a')] //use es6 spread
+    const de=links  
+              .map(link => link.textContent)
+              .filter(streetName => streetName.includes('de'));
+    
+    
+    
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    // inventors.sort((a,b)=>{
+    //   if(a.last>b.last) return 1;
+    //   else return -1;
+    // })
+    people.sort((n1,n2)=>{
+      let n1Last = n1.substring(0,n1.indexOf(','));
+      let n2Last = n2.substring(0,n2.indexOf(','));
+      return n1Last>n2Last ? 1 : -1;
+    })
+    console.log('sort by last name', people);
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
     const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
+    let groupData = data.reduce((acc,cur)=>{
+      if(!acc[cur]){
+        acc[cur]=1;
+      }
+      else{
+        acc[cur]=acc[cur]+1;
+      }
+      return acc;
+    },{});
 
   </script>
 </body>
